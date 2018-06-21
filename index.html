@@ -9,20 +9,24 @@
 <script crossorigin="anonymous" src="./bouture.js"></script>
 
 <script>
-    const ul = Bouture.ul({'data-template': 'crews'}, ['abra', 'kadabra', 'alakazam'].map(Bouture.li))
-    document.querySelector('#gh-crew-list').append(ul.getElement())
+    'use strict';
 
-console.log(ul)
-/*
-                <ul data-template="crews">
-                <li>
-                    <a title="Atelier pour apprendre le management visuel" href="#claudeaubry/contributions/tree/master/altableu" data-owner="claudeaubry/contributions/tree/master/altableu">
-                        <h3>Al tablèu</h3>
-                        <p>Atelier pour apprendre le management visuel</p>
-                    </a>
-                </li>
-            </ul>
-*/
+    document.addEventListener('DOMContentLoaded', e => {
+        const repos =[
+            {
+                title: 'Bénédicte Lambert',
+                description: 'Mes recettes',
+                href: 'https://bndct-lmbrt.github.io/mes-recettes/',
+            }
+        ]
+        const lis = repos.map(({title, description, href}) =>
+            Bouture.li.a({title: title, href: href}, [Bouture.h3(title), Bouture.p(description)])
+        )
+
+        const ul = Bouture.ul({ 'data-template': 'crews' })
+        document.querySelector('#gh-crew-list').append(ul(lis).getElement())
+    }, { once: true })
+
 </script>
 
 <header class="container">
@@ -50,16 +54,7 @@ console.log(ul)
                 </div>
             </div>
         </section>
-        <section id="gh-crew-list" class="container">
-            <ul data-template="crews">
-                <li>
-                    <a title="Atelier pour apprendre le management visuel" href="#claudeaubry/contributions/tree/master/altableu" data-owner="claudeaubry/contributions/tree/master/altableu">
-                        <h3>Al tablèu</h3>
-                        <p>Atelier pour apprendre le management visuel</p>
-                    </a>
-                </li>
-            </ul>
-        </section>
+        <section id="gh-crew-list" class="container"></section>
     </main>
 </div>
 

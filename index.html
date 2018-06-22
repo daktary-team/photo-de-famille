@@ -6,40 +6,24 @@
 <title>Photo de famille</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="p2f.css">
-<script crossorigin="anonymous" src="./bouture.js"></script>
+<script crossorigin="anonymous" src="./javascript/bouture.js"></script>
+<script crossorigin="anonymous" src="./javascript/js-yaml.min.js"></script>
 
 <script>
     'use strict';
 
     document.addEventListener('DOMContentLoaded', e => {
-        const repos =[
-            {
-                title: 'Bénédicte Lambert',
-                description: 'Mes recettes',
-                href: 'https://bndct-lmbrt.github.io/mes-recettes/',
-            },
-            {
-                title: 'Armel Lecoz',
-                description: 'Démocratie ouverte',
-                href: 'http://pointbar.github.io/democratie_ouverte/',
-            },
-            {
-                title: 'Julia Barbelane',
-                description: 'Réflexions',
-                href: 'https://julia-barbelane.github.io/reflexions/',
-            },
-            {
-                title: 'Lilian Ricaud',
-                description: 'Travail en réseau',
-                href: 'http://pointbar.github.io/travail-en-reseau/',
-            }
-        ]
-        const lis = repos.map(({title, description, href}) =>
-            Bouture.li.a({title: title, href: href}, [Bouture.h3(title), Bouture.p(description)])
-        )
 
-        const ul = Bouture.ul({ 'data-template': 'crews' })
-        document.querySelector('#gh-crew-list').append(ul(lis).getElement())
+        fetch('./config.yml')
+            .then(response => response.text())
+            .then(blob => {
+                const repos = jsyaml.safeLoad(blob).repos
+                const ul = Bouture.ul({ 'data-template': 'crews' })
+                const lis = repos.map(({ title, description, href }) => {
+                    return Bouture.li.a({ title: title, href: href }, [Bouture.h3(title), Bouture.p(description)])
+                })
+                document.querySelector('#gh-crew-list').append(ul(lis).getElement())
+            })
     }, { once: true })
 
 </script>
